@@ -16,7 +16,7 @@ const dbURL = process.env.MONGODB_URI || 'mongodb://localhost/DomoMaker';
 const mongooseOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-}
+};
 
 mongoose.connect(dbURL, mongooseOptions, (err) => {
   if (err) {
@@ -25,7 +25,7 @@ mongoose.connect(dbURL, mongooseOptions, (err) => {
   }
 });
 
-//Pull in our routes
+// Pull in our routes
 const router = require('./router.js');
 
 const app = express();
@@ -43,8 +43,8 @@ app.use(cookieParser());
 router(app);
 
 app.listen(port, (err) => {
-    if (err) {
-      throw err;
-    }
-    console.log(`Listening on port ${port}`);
+  if (err) {
+    throw err;
+  }
+  console.log(`Listening on port ${port}`);
 });
