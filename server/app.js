@@ -31,19 +31,17 @@ mongoose.connect(dbURL, mongooseOptions, (err) => {
 });
 
 let redisURL = {
-    // You will need to follow the "Setting up Redis for Local Use" instructions
-    hostname: 'redis-11733.c92.us-east-1-3.ec2.cloud.redislabs.com',
-    port: '11733',
+  // You will need to follow the "Setting up Redis for Local Use" instructions
+  hostname: 'redis-11733.c92.us-east-1-3.ec2.cloud.redislabs.com',
+  port: '11733',
 };
 
 let redisPASS = 'hrcIY2yUi5QMjDbFEj6nX4xlX1X7S6sE';
-
 if (process.env.REDISCLOUD_URL) {
   redisURL = url.parse(process.env.REDISCLOUD_URL);
-  redisPASS = redisURL.auth.split(':')[1];
+  [, redisPASS] = redisURL.auth.split(':');
 }
-
-let redisClient = redis.createClient({
+const redisClient = redis.createClient({
   host: redisURL.hostname,
   port: redisURL.port,
   password: redisPASS,
@@ -79,7 +77,7 @@ app.use(cookieParser());
 
 app.use(csrf());
 app.use((err, req, res, next) => {
-  if(err.code !== 'EBADCSRFTOKEN') return next(err);
+  if (err.code !== 'EBADCSRFTOKEN') return next(err);
 
   console.log('Missing CSRF token');
   return false;
